@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">GroupProject</string>
+    <string name="zone_textView">Choose a zone type</string>
+    <string name="name_textView">Choose a name</string>
+    <string name="name_hint">Enter a name for the zone</string>
+    <string name="map_ButtonText">Choose zone on map</string>
+    <string name="gozone_button_text">Go</string>
+    <string name="nogozone_button_text">No-go</string>
+    <string name="cancel_button_text">Cancel</string>
+    <string name="submit_button_text">Submit</string>
+
+    <string name="hours_text">Hours per week (Optional)</string>
+    <string name="hours_hint">Enter # of hours to spend on this zone</string>
+    <string name="title_activity_maps">Choose A Zone</string>
+
+    <string name="drawzone_text">Draw Zone</string>
+    <string name="Retry_text">Retry</string>
+    <string name="Done_text">Done</string>
+    <string name="Cancel_text">Cancel</string>
+
+    <string name="menu_item_add_zone_text">Add new zone</string>
+    <string name="menu_item_zone_list_text">Zone List</string>
+</resources>

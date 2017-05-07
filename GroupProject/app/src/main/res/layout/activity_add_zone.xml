@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:background="@color/goZone_color"
+    android:id="@+id/ll"
+    android:gravity="center_horizontal"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/zone_textView"
+        android:textSize="20dp"
+        android:layout_marginTop="20dp"
+        android:textColor="@android:color/white"
+        android:gravity="center" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:layout_marginTop="10dp">
+
+        <Button
+            android:id="@+id/gozone_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/zone_shape_selected"
+            android:layout_margin="5dp"
+            android:textSize="14dp"
+            android:text="@string/gozone_button_text"
+            />
+
+        <Button
+            android:id="@+id/nogozone_button"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/zone_shape_unselected"
+            android:layout_margin="5dp"
+            android:textSize="14dp"
+            android:text="@string/nogozone_button_text"
+            />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/name_textView"
+        android:layout_marginTop="30dp"
+        android:textSize="20dp"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        />
+
+    <EditText
+        android:id="@+id/name_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/name_hint"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:inputType="text"
+        android:maxLines="1"
+        android:lines="1"/>
+
+    <TextView
+        android:id="@+id/hours_textview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/hours_text"
+        android:layout_marginTop="30dp"
+        android:textSize="20dp"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        />
+
+    <EditText
+        android:id="@+id/hours_edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/hours_hint"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:inputType="number"
+        android:maxLines="1"
+        android:lines="1"/>
+
+    <Button
+        android:id="@+id/chooseZone_Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/map_ButtonText"
+        android:textSize="20dp"
+        android:textColor="@android:color/white"
+        android:gravity="center"
+        android:background="@drawable/zone_shape_unselected"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_marginTop="30dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="30dp"
+        android:weightSum="2"
+        >
+
+        <Button
+            android:id="@+id/cancel_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel_button_text"
+            android:layout_weight="1"
+            android:background="@drawable/zone_shape_unselected"
+            android:layout_marginRight="5dp"
+            android:textSize="20dp"/>
+
+        <Button
+            android:id="@+id/submit_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/submit_button_text"
+            android:layout_weight="1"
+            android:background="@drawable/zone_shape_unselected"
+            android:layout_marginLeft="5dp"
+            android:textSize="20dp"/>
+    </LinearLayout>
+</LinearLayout>
+
