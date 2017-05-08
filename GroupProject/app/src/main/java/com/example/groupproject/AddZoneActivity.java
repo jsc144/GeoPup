@@ -1,8 +1,15 @@
 package com.example.groupproject;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -13,9 +20,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.commonsware.cwac.locpoll.LocationPoller;
+import com.commonsware.cwac.locpoll.LocationPollerParameter;
+import com.example.groupproject.Model.LocationReceiver;
 import com.example.groupproject.Model.Zone;
 import com.example.groupproject.service.impl.ZoneService;
 import com.google.android.gms.maps.model.LatLng;
+
+import static com.example.groupproject.Model.Constants.MY_PERMISSIONS_REQUEST;
+import static com.example.groupproject.Model.Constants.PERIOD;
 
 public class AddZoneActivity extends AppCompatActivity {
 
@@ -30,6 +43,8 @@ public class AddZoneActivity extends AppCompatActivity {
     private static int zone_type = 0; //0 for go, 1 for no go
     static final String MAP_INTENT_COLOR = "MAP_INTENT_COLOR";
     static final int MAP_INTENT_REQUEST_CODE = 3;
+    private PendingIntent pi=null;
+    private AlarmManager mgr=null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +117,11 @@ public class AddZoneActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 setResult(RESULT_CANCELED);
+                /*askLocationPermission();
+                SharedPreferences prefs = getSharedPreferences("GeoCat",0);
+                long points = prefs.getLong("points",0);
+                Log.d("init points", Long.toString(points));
+           */
                 finish();
             }
         });
@@ -127,6 +147,11 @@ public class AddZoneActivity extends AppCompatActivity {
                                     lastPoint.latitude, lastPoint.longitude,0);
                         }
                         serv.addZone(z);
+                        //now, check if the alarm manager was scheduled
+                        SharedPreferences prefs = getSharedPreferences("GeoCat",0);
+                        if(!prefs.getBoolean("started",false)){
+                            askLocationPermission();
+                        }
                         setResult(RESULT_OK);
                         finish();
                     }
@@ -150,5 +175,76 @@ public class AddZoneActivity extends AppCompatActivity {
                 gotMapResult = false;
             }
         }
+    }
+    private void startService(){
+        mgr=(AlarmManager)getSystemService(ALARM_SERVICE);
+
+        Intent i=new Intent(this, LocationPoller.class);
+        Intent i2 = new Intent(this, LocationReceiver.class);
+
+        Bundle bundle = new Bundle();
+        LocationPollerParameter parameter = new LocationPollerParameter(bundle);
+        parameter.setIntentToBroadcastOnCompletion(i2);
+        // try GPS and fall back to NETWORK_PROVIDER
+        parameter.setProviders(new String[] {LocationManager.GPS_PROVIDER, LocationManager.NETWORK_PROVIDER});
+        parameter.setTimeout(60000);
+        i.putExtras(bundle);
+
+
+        pi= PendingIntent.getBroadcast(this, 0, i, 0);
+        mgr.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                SystemClock.elapsedRealtime(), PERIOD,  pi);
+
+        SharedPreferences prefs = getSharedPreferences("GeoCat",0);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean("started",true);
+        editor.commit();
+        Toast.makeText(this, getFilesDir().getPath(),
+                Toast.LENGTH_LONG).show();
+    }
+    public boolean checkLocationPermission()
+    {
+        String permission = "android.permission.ACCESS_FINE_LOCATION";
+        int res = this.checkCallingOrSelfPermission(permission);
+        return (res == PackageManager.PERMISSION_GRANTED);
+    }
+    private void askLocationPermission(){
+        if(!checkLocationPermission()){
+            ActivityCompat.requestPermissions(this,new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
+                    MY_PERMISSIONS_REQUEST);
+            if(checkLocationPermission()){
+                startService();
+            }
+        }
+        else {
+            startService();
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    startService();
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
+    }
+    public void stopService(View v) {
+        mgr.cancel(pi);
+        finish();
     }
 }

@@ -23,63 +23,85 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 
 import com.commonsware.cwac.locpoll.LocationPollerResult;
+import com.example.groupproject.service.impl.ZoneService;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Date;
+import java.util.List;
 
 public class LocationReceiver extends BroadcastReceiver {
+    private Context _context;
+    private long points = 0;
     @Override
     public void onReceive(Context context, Intent intent) {
-        File log=
-                new File(Environment.getExternalStorageDirectory(),
-                        "LocationLog.txt");
+        Log.d("recieved","received!");
+        _context = context;
+        Bundle b = intent.getExtras();
+        LocationPollerResult locationResult = new LocationPollerResult(b);
 
-        try {
-            BufferedWriter out=
-                    new BufferedWriter(new FileWriter(log.getAbsolutePath(),
-                            log.exists()));
-
-            out.write(new Date().toString());
-            out.write(" : ");
-
-            Bundle b=intent.getExtras();
-
-            LocationPollerResult locationResult = new LocationPollerResult(b);
-
-            Location loc=locationResult.getLocation();
-            String msg;
+        Location loc=locationResult.getLocation();
+        String msg;
+        if (loc==null) {
+            loc=locationResult.getLastKnownLocation();
 
             if (loc==null) {
-                loc=locationResult.getLastKnownLocation();
-
-                if (loc==null) {
-                    msg=locationResult.getError();
-                }
-                else {
-                    msg="TIMEOUT, lastKnown="+loc.toString();
-                }
+                msg=locationResult.getError();
             }
             else {
-                msg=loc.toString();
+                msg="TIMEOUT, lastKnown="+loc.toString();
             }
-
-            if (msg==null) {
-                msg="Invalid broadcast received!";
-            }
-
-            out.write(msg);
-            out.write("\n");
-            out.close();
         }
-        catch (IOException e) {
-            Log.e(getClass().getName(), "Exception appending to log file", e);
+        else {
+            List<Zone> zones = getZones();
+            countPoints(zones, loc.getLongitude(), loc.getLatitude());
+            msg=loc.toString();
         }
+
+        if (msg==null) {
+            msg="Invalid broadcast received!";
+        }
+        Log.d("MSG", msg +" "+ points);
     }
+    private void countPoints(List<Zone> zones, double longitude, double latitude){
+        for (Zone zone:zones) {
+            if(inZone(zone,longitude,latitude))
+            {
+                if(zone.getZoneType() != 0)
+                    addPoints(-1);
+                else
+                    addPoints(1);
+            }
+            Log.d("Points", Long.toString(points));
+        }
+
+
+
+    }
+    private void addPoints(long pointValue){
+        //TODO:Make persistent
+        android.content.SharedPreferences pm = _context.getSharedPreferences("GeoCat",0);
+        points = pm.getLong("points",0);
+        points = points + pointValue;
+        android.content.SharedPreferences.Editor editor = pm.edit();
+        editor.putLong("points",points);
+        editor.commit();
+    }
+    private List<Zone> getZones(){
+        ZoneService zs = new ZoneService(_context);
+        return zs.getZones();
+    /**    ArrayList<Zone> zones = new ArrayList<>();
+        Zone z1 = new Zone("test",1,0,0,0,100,100,1);
+        zones.add(z1);
+        return  zones;*/
+    }
+    private boolean inZone(Zone zone, double longitude, double latitude){
+        if(latitude >= zone.getStart_lat() && latitude < zone.getEnd_lat()){
+            if(longitude >= zone.getStart_long() && longitude < zone.getEnd_long()){
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

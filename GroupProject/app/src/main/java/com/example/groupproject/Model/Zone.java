@@ -17,6 +17,7 @@ public class Zone implements Serializable{
         this.id = id;
         this.name = name;
         this.hours = hours;
+        //0 if go 1 if nogo
         this.zoneType = zoneType;
         this.start_lat = start_lat;
         this.start_long = start_long;
