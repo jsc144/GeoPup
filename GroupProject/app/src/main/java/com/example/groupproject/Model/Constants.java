@@ -16,8 +16,8 @@ public class Constants {
     public static final long JOY_INCREMENT = -1;
     public static final long FOOD_INCREMENT=504;
     public static final long TREAT_INCREMENT=42;
-    public static final long FOOD_COST=320;
-    public static final long TREAT_COST=100;
-    public static final long MEDICINE_COST = 700;
+    public static final long FOOD_COST=120;
+    public static final long TREAT_COST=250;
+    public static final long MEDICINE_COST = 400;
     public static final String DEFAULT_NAME = "";
 }
