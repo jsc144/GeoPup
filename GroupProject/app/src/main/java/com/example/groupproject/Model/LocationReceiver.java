@@ -18,15 +18,20 @@ package com.example.groupproject.Model;
  limitations under the License.
  */
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.commonsware.cwac.locpoll.LocationPollerResult;
+import com.example.groupproject.MainActivity;
+import com.example.groupproject.R;
 import com.example.groupproject.service.impl.ZoneService;
 
 import java.util.List;
@@ -74,11 +79,21 @@ public class LocationReceiver extends BroadcastReceiver {
         Log.d("MSG", msg +" "+ points);
     }
     private void countPoints(List<Zone> zones, double longitude, double latitude){
+        //sendNotification("GeoDog","counting...");
         android.content.SharedPreferences pm = _context.getSharedPreferences("GeoCat",0);
+        String name = pm.getString("name","Your Geo-Dog");
         long hunger = pm.getLong("hunger",MAX_HUNGER);
         if(hunger <= 0){
+            if(hunger == 0){
+                sendNotification("GeoDog",
+                       name + " is starving and its health is deteriorating. Buy some food!");
+                addHunger(-1);
+            }
             long health = pm.getLong("health",MAX_HEALTH);
             if(health == 0){
+                 String message = name +
+                         " was taken away by a concerned vet. It's okay though, pick yourself up and try again!";
+                sendNotification("GeoDog",message);
                 resetStats();
             }else{
                 addHealth(HEALTH_INCREMENT);
@@ -93,9 +108,15 @@ public class LocationReceiver extends BroadcastReceiver {
                     addJoy(JOY_INCREMENT);
                     long joy = pm.getLong("joy",MAX_JOY);
                     if(joy <= 0){
-                        //10% chance to reset statistics
+                        if(joy == 0) {
+                            sendNotification("GeoDog",
+                                    "Oh no! "+name
+                                            + "is completely pooped! buy a treat to cheer it up!");
+                            addJoy(-1);
+                        }//10% chance to reset statistics
                         Random r = new Random();
                         if(r.nextInt(100-0) >= 90){
+                            sendNotification("GeoDog", "Dude, "+name + " just ran away!");
                             resetStats();
                         }
                     }
@@ -165,5 +186,16 @@ public class LocationReceiver extends BroadcastReceiver {
         }
         return false;
     }
+    private void sendNotification(String title, String message){
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(_context)
+                .setSmallIcon(R.mipmap.ic_launcher_2).setContentTitle(title).setContentText(message);
 
+        Intent resultIntent = new Intent(_context, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(_context,0,
+                resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        mBuilder.setContentIntent(pendingIntent);
+        NotificationManager mgr =
+                (NotificationManager) _context.getSystemService(Context.NOTIFICATION_SERVICE);
+        mgr.notify(0,mBuilder.build());
+    }
 }
