@@ -18,4 +18,6 @@ public class Constants {
     public static final long TREAT_INCREMENT=42;
     public static final long FOOD_COST=320;
     public static final long TREAT_COST=100;
+
+    public static final String DEFAULT_NAME = "";
 }
