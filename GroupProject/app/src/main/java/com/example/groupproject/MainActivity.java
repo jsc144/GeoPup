@@ -48,9 +48,6 @@ public class MainActivity extends AppCompatActivity {
 
         List<Zone> zones = serv.getZones();
 
-
-
-
         if(zones.size()==0){
             setContentView(R.layout.activity_empty_main);
         }else{
