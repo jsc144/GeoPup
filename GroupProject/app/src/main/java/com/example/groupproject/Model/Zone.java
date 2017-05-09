@@ -13,10 +13,9 @@ public class Zone implements Serializable{
     private int hours, zoneType;
     private double start_lat, start_long, end_lat, end_long;
 
-    public Zone(String name, int hours, int zoneType, double start_lat,
+    public Zone(String name, int zoneType, double start_lat,
                 double start_long, double end_lat, double end_long){
         this.name = name;
-        this.hours = hours;
         //0 if go 1 if nogo
         this.zoneType = zoneType;
         this.start_lat = start_lat;
@@ -37,10 +36,6 @@ public class Zone implements Serializable{
 
     public String getName(){
         return name;
-    }
-
-    public int getHours(){
-        return hours;
     }
 
     public int getZoneType(){
