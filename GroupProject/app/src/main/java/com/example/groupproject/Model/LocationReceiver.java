@@ -140,7 +140,7 @@ public class LocationReceiver extends BroadcastReceiver {
     private void addPoints(long pointValue){
         //TODO:Make persistent
         android.content.SharedPreferences pm = _context.getSharedPreferences("GeoCat",0);
-        points = pm.getLong("points",0);
+        points = pm.getLong("points",100);
         points = points + pointValue;
         android.content.SharedPreferences.Editor editor = pm.edit();
         editor.putLong("points",points);
