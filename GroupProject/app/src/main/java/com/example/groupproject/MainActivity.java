@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView points_txt, health_txt, joy_txt,hunger_txt;
     private long health, hunger, joy;
     private Random random = new Random();
-    private ImageView imageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
             health_txt = (TextView)findViewById(R.id.health_textview);
             joy_txt = (TextView)findViewById(R.id.joy_textview);
             hunger_txt = (TextView)findViewById(R.id.hunger_textview);
-            imageView = (ImageView)findViewById(R.id.pet_imageview);
+
 
             points_txt.setText("Points: " + points);
             health_txt.setText("Health: " + health);
@@ -177,10 +176,10 @@ public class MainActivity extends AppCompatActivity {
 
         ActionBar ab = getSupportActionBar();
         ab.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(getApplicationContext(), R.color.main_activity_color)));
-        select_pic();
     }
 
     private void update_stats(){
+        prefs = getSharedPreferences("GeoCat",0);
         points = prefs.getLong("points",100);
         health = prefs.getLong("health",Constants.MAX_HEALTH);
         hunger = prefs.getLong("hunger",Constants.MAX_HUNGER);
@@ -194,11 +193,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void select_pic(){
+        prefs = getSharedPreferences("GeoCat",0);
         points = prefs.getLong("points",100);
         health = prefs.getLong("health",Constants.MAX_HEALTH);
         hunger = prefs.getLong("hunger",Constants.MAX_HUNGER);
         joy = prefs.getLong("joy",Constants.MAX_JOY);
-
+        ImageView imageView = (ImageView)findViewById(R.id.pet_imageview);
         int i = random.nextInt(101-1);
         if(i > 50){
             imageView.setImageResource(R.drawable.happy_dog);
