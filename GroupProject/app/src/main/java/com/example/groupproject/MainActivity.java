@@ -22,6 +22,9 @@ import com.example.groupproject.service.impl.ZoneService;
 
 import java.util.List;
 
+import static com.example.groupproject.Model.Constants.MAX_HEALTH;
+import static com.example.groupproject.Model.Constants.MEDICINE_COST;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_ADD_ZONE = 0;
@@ -74,7 +77,20 @@ public class MainActivity extends AppCompatActivity {
             milk.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    long points = prefs.getLong("points",0);
+                    if(points >= Constants.TREAT_COST){
+                        long health = prefs.getLong("health",MAX_HEALTH);
+                        if(health >= MAX_HEALTH){
+                            return;
+                        }else{
+                            points = points - MEDICINE_COST;
+                            health = MAX_HEALTH;
+                        }
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putLong("points",points);
+                        editor.putLong("health",health);
+                        editor.commit();
+                    }
                 }
             });
 
