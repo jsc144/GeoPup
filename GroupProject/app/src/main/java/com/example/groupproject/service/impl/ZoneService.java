@@ -29,7 +29,6 @@ public class ZoneService {
 
         contentValues.put (DbSchema.ZoneTable.Columns.ID, zone.getID());
         contentValues.put (DbSchema.ZoneTable.Columns.ZONE_NAME, zone.getName());
-        contentValues.put (DbSchema.ZoneTable.Columns.HOURS, zone.getHours());
         contentValues.put (DbSchema.ZoneTable.Columns.ZONE_TYPE, zone.getZoneType());
         contentValues.put (DbSchema.ZoneTable.Columns.START_LAT, zone.getStart_lat());
         contentValues.put (DbSchema.ZoneTable.Columns.START_LONG, zone.getStart_long());
@@ -86,14 +85,13 @@ public class ZoneService {
         public Zone getZone() {
             String id = getString(getColumnIndex(DbSchema.ZoneTable.Columns.ID));
             String zone_name = getString(getColumnIndex(DbSchema.ZoneTable.Columns.ZONE_NAME));
-            int hours = getInt(getColumnIndex(DbSchema.ZoneTable.Columns.HOURS));
             int zone_type = getInt(getColumnIndex(DbSchema.ZoneTable.Columns.ZONE_TYPE));
             double start_lat = getDouble(getColumnIndex(DbSchema.ZoneTable.Columns.START_LAT));
             double start_long = getDouble(getColumnIndex(DbSchema.ZoneTable.Columns.START_LONG));
             double end_lat = getDouble(getColumnIndex(DbSchema.ZoneTable.Columns.END_LAT));
             double end_long = getDouble(getColumnIndex(DbSchema.ZoneTable.Columns.END_LONG));
 
-            Zone zone = new Zone(zone_name,hours,zone_type,start_lat,start_long,end_lat,end_long);
+            Zone zone = new Zone(zone_name,zone_type,start_lat,start_long,end_lat,end_long);
 
             zone.setID(id);
             Log.d("haha", id);

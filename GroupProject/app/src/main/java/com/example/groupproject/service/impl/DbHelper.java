@@ -19,7 +19,6 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("create table " + DbSchema.ZoneTable.NAME + "(" + " _id integer primary key autoincrement, " +
                 DbSchema.ZoneTable.Columns.ID + ", " +
                 DbSchema.ZoneTable.Columns.ZONE_NAME + ", " +
-                DbSchema.ZoneTable.Columns.HOURS + ", " +
                 DbSchema.ZoneTable.Columns.ZONE_TYPE + ", " +
                 DbSchema.ZoneTable.Columns.START_LAT + ", " +
                 DbSchema.ZoneTable.Columns.START_LONG + ", " +

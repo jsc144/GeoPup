@@ -55,9 +55,6 @@ public class MainActivity extends AppCompatActivity {
 
         List<Zone> zones = serv.getZones();
 
-
-
-
         if(zones.size()==0){
             setContentView(R.layout.activity_empty_main);
         }else{
@@ -183,6 +180,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void update_stats(){
+        points = prefs.getLong("points",0);
+        health = prefs.getLong("health",Constants.MAX_HEALTH);
+        hunger = prefs.getLong("hunger",Constants.MAX_HUNGER);
+        joy = prefs.getLong("joy",Constants.MAX_JOY);
+
         points_txt.setText("Points: " + points);
         health_txt.setText("Health: " + health);
         joy_txt.setText("Joy: " + joy);
