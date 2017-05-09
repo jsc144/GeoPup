@@ -22,10 +22,18 @@
     <string name="menu_item_zone_list_text">Zone List</string>
 
     <string name="food_btn">Give Food</string>
-    <string name="treat_btn">Give a Treat</string>
-    <string name="milk_btn">Give Milk</string>
+    <string name="treat_btn">Give Treat</string>
+    <string name="milk_btn">Heal</string>
 
     <string name="food_txt">-20</string>
     <string name="treat_txt">-50</string>
-    <string name="milk_txt">-5</string>
+    <string name="heal_txt">-100</string>
+
+
+    <string name="health_text">Health</string>
+    <string name="joy_text">Joy</string>
+    <string name="hunger_text">Hunger</string>
+    <string name="points_text">Points</string>
+
+
 </resources>
