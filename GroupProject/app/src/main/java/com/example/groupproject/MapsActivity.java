@@ -5,6 +5,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,7 +19,9 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -29,8 +33,12 @@ import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polygon;
 import com.google.android.gms.maps.model.PolygonOptions;
+
+import java.io.IOException;
+import java.util.List;
 
 
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks,
@@ -64,7 +72,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     public static boolean getMovable(){
         return Is_MAP_Moveable;
-
     }
 
     @Override
@@ -107,7 +114,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
      * @param googleMap
      */
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(final GoogleMap googleMap) {
         google_map = googleMap;
 
         updateLocationUI();
@@ -118,8 +125,31 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         final Button btn_retry = (Button) findViewById(R.id.btn_Retry);
         final Button btn_cancel = (Button) findViewById(R.id.btn_Cancel);
         final Button btn_Done = (Button) findViewById(R.id.btn_Done);
+        final EditText search_text = (EditText) findViewById(R.id.search_text);
+        final ImageButton search_btn = (ImageButton)findViewById(R.id.btn_search);
 
         btn_retry.setVisibility(View.GONE);
+
+        search_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String address = search_text.getText().toString();
+                if(!address.equals("")){
+                    Geocoder g = new Geocoder(getApplicationContext());
+                    try {
+                        List<Address> a = g.getFromLocationName(address,1);
+                        double search_lat = a.get(0).getLatitude();
+                        double search_long = a.get(0).getLongitude();
+
+                        LatLng search_location = new LatLng(search_lat, search_long);
+                        googleMap.addMarker(new MarkerOptions().position(search_location));
+                        googleMap.moveCamera(CameraUpdateFactory.newLatLng(search_location));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
 
         btn_draw_State.setOnClickListener(new View.OnClickListener() {
             @Override

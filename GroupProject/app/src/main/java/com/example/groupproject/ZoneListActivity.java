@@ -244,9 +244,9 @@ public class ZoneListActivity extends AppCompatActivity  implements OnMapReadyCa
     public void onPolygonClick(final Polygon polygon) {
         final List<LatLng> points = polygon.getPoints();
         final String l = (String)polygon.getTag();
-        Log.d("lmao",l.toString());
+        final Zone z = serv.getZone(l);
         AlertDialog alertDialog = new AlertDialog.Builder(ZoneListActivity.this).create();
-        alertDialog.setTitle("Delete Zone");
+        alertDialog.setTitle("Delete \""+z.getName()+"\"?");
         alertDialog.setMessage("Press OK to delete zone");
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
                 new DialogInterface.OnClickListener() {

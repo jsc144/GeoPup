@@ -66,6 +66,17 @@ public class ZoneService {
         return zones;
     }
 
+    public Zone getZone(String ID){
+        List<Zone> zones = getZones();
+
+        for(Zone i:zones){
+            if(i.getID().equals(ID)){
+                return i;
+            }
+        }
+        return null;
+    }
+
     private class StoryCursorWrapper extends CursorWrapper {
 
         StoryCursorWrapper(Cursor cursor) {
