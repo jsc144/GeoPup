@@ -187,6 +187,7 @@ public class MainActivity extends AppCompatActivity {
         health_txt.setText("Health: " + health);
         joy_txt.setText("Joy: " + joy);
         hunger_txt.setText("Hunger: " + hunger);
+        select_pic();
     }
 
     private void select_pic(){

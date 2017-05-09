@@ -21,9 +21,9 @@
     <string name="menu_item_add_zone_text">Add new zone</string>
     <string name="menu_item_zone_list_text">Zone List</string>
 
-    <string name="food_btn">Give Food</string>
-    <string name="treat_btn">Give Treat</string>
-    <string name="milk_btn">Heal</string>
+    <string name="food_btn">Give Food (60 pts)</string>
+    <string name="treat_btn">Give Treat (120 pts)</string>
+    <string name="milk_btn">Heal (180 pts)</string>
 
     <string name="food_txt">-20</string>
     <string name="treat_txt">-50</string>
