@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
             food.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    long points = prefs.getLong("points",0);
+                    long points = prefs.getLong("points",1000);
                     if(points >= Constants.FOOD_COST){
                         hunger = prefs.getLong("hunger",Constants.MAX_HUNGER);
                         if(hunger < Constants.MAX_HUNGER){
@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
             heal.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    long points = prefs.getLong("points",0);
+                    long points = prefs.getLong("points",100);
                     if(points >= Constants.MEDICINE_COST){
                         health = prefs.getLong("health",MAX_HEALTH);
                         if(health >= MAX_HEALTH){
@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity {
             treat.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    long points = prefs.getLong("points",0);
+                    long points = prefs.getLong("points",100);
                     if(points >= Constants.TREAT_COST){
                         joy = prefs.getLong("joy",Constants.MAX_JOY);
 
