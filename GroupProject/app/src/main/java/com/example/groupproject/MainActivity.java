@@ -2,6 +2,7 @@ package com.example.groupproject;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
@@ -33,11 +34,12 @@ public class MainActivity extends AppCompatActivity {
     private ZoneService serv;
     private static int points = 100;
     private Button food, milk, treat;
-    SharedPreferences prefs;
+    private SharedPreferences prefs;
+    private Context _context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        _context = this;
 
         serv = ServiceManager.getZoneService(getApplicationContext());
 
@@ -58,18 +60,27 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     long points = prefs.getLong("points",0);
                     if(points >= Constants.FOOD_COST){
-                        SharedPreferences.Editor editor = prefs.edit();
-                        points = points - Constants.FOOD_COST;
-                        editor.putLong("points",points);
                         long hunger = prefs.getLong("hunger",Constants.MAX_HUNGER);
                         if(hunger < Constants.MAX_HUNGER){
                             if(hunger + Constants.FOOD_INCREMENT <= Constants.MAX_HUNGER)
                                 hunger = Constants.MAX_HUNGER;
                             else
                                 hunger = hunger + Constants.FOOD_INCREMENT;
-                            editor.putLong("hunger",hunger);
+                        }else{
+                            Toast.makeText(_context, "Already full",
+                                    Toast.LENGTH_LONG).show();
+                            return;
                         }
+                        SharedPreferences.Editor editor = prefs.edit();
+                        points = points - Constants.FOOD_COST;
+                        editor.putLong("hunger",hunger);
+                        editor.putLong("points",points);
                         editor.commit();
+                        Toast.makeText(_context, "Food bought!",
+                                Toast.LENGTH_LONG).show();
+                    }else{
+                        Toast.makeText(_context, "Not enough points",
+                                Toast.LENGTH_LONG).show();
                     }
                 }
             });
@@ -78,9 +89,11 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     long points = prefs.getLong("points",0);
-                    if(points >= Constants.TREAT_COST){
+                    if(points >= Constants.MEDICINE_COST){
                         long health = prefs.getLong("health",MAX_HEALTH);
                         if(health >= MAX_HEALTH){
+                            Toast.makeText(_context, "Already at full health",
+                                    Toast.LENGTH_LONG).show();
                             return;
                         }else{
                             points = points - MEDICINE_COST;
@@ -90,6 +103,11 @@ public class MainActivity extends AppCompatActivity {
                         editor.putLong("points",points);
                         editor.putLong("health",health);
                         editor.commit();
+                        Toast.makeText(_context, "Medicine bought!",
+                                Toast.LENGTH_LONG).show();
+                    }else{
+                        Toast.makeText(_context, "Not enough points",
+                                Toast.LENGTH_LONG).show();
                     }
                 }
             });
@@ -112,7 +130,15 @@ public class MainActivity extends AppCompatActivity {
                             editor.putLong("points",points);
                             editor.putLong("joy",joy);
                             editor.commit();
+                            Toast.makeText(_context, "Treat bought!",
+                                    Toast.LENGTH_LONG).show();
+                        }else{
+                            Toast.makeText(_context, "Already completely joy-filled",
+                                    Toast.LENGTH_LONG).show();
                         }
+                    }else{
+                        Toast.makeText(_context, "Not enough points",
+                                Toast.LENGTH_LONG).show();
                     }
                 }
             });
