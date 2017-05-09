@@ -3,18 +3,21 @@ package com.example.groupproject;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,8 +26,10 @@ import com.example.groupproject.Model.Zone;
 import com.example.groupproject.service.impl.ZoneService;
 
 import java.util.List;
+import java.util.Random;
 
 import static com.example.groupproject.Model.Constants.MAX_HEALTH;
+import static com.example.groupproject.Model.Constants.MAX_JOY;
 import static com.example.groupproject.Model.Constants.MEDICINE_COST;
 
 public class MainActivity extends AppCompatActivity {
@@ -39,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
     private Context _context;
     private TextView points_txt, health_txt, joy_txt,hunger_txt;
     private long health, hunger, joy;
+    private Random random = new Random();
+    private ImageView imageView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
             health_txt = (TextView)findViewById(R.id.health_textview);
             joy_txt = (TextView)findViewById(R.id.joy_textview);
             hunger_txt = (TextView)findViewById(R.id.hunger_textview);
+            imageView = (ImageView)findViewById(R.id.pet_imageview);
 
             points_txt.setText("Points: " + points);
 
@@ -164,11 +172,54 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void select_pic(){
+        int i = random.nextInt(101-1);
+        if(i > 50){
+            imageView.setImageResource(R.drawable.happy_dog);
+        }else{
+            imageView.setImageResource(R.drawable.happy_dog_2);
+        }
         if(hunger==0){
+            if(i >50){
+                imageView.setImageResource(R.drawable.sick_dog_1);
+            }else{
+                imageView.setImageResource(R.drawable.sick_dog2);
+            }
+        }
+        if(joy < MAX_JOY/4){
+            if(i <= 33){
+                imageView.setImageResource(R.drawable.mad_dog);
+            }else if(i > 66){
+                imageView.setImageResource(R.drawable.mad_dog2);
+            }else{
+                imageView.setImageResource(R.drawable.mad_dog3);
+            }
+        }
+        if(health == 0){
+            imageView.setImageResource(R.drawable.animal_services);
+            showAlert("A neighborhood vet saw your starving dog and took it to safety (away from you).");
+        }
+        if(!prefs.getBoolean("alive",true)){
+            imageView.setImageResource(R.drawable.animal_services);
 
+            showAlert("Your dog was so bummed, it ran away!");
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean("alive",true);
+            editor.commit();
         }
     }
 
+    private void showAlert(String message){
+        AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+        alertDialog.setTitle("Alert");
+        alertDialog.setMessage(message);
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        alertDialog.show();
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
