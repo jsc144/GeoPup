@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
             food.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    long points = prefs.getLong("points",1000);
+                    long points = prefs.getLong("points",100);
                     if(points >= Constants.FOOD_COST){
                         hunger = prefs.getLong("hunger",Constants.MAX_HUNGER);
                         if(hunger < Constants.MAX_HUNGER){
