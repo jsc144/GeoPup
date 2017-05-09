@@ -67,7 +67,11 @@ public class MainActivity extends AppCompatActivity {
             heal = (Button) findViewById(R.id.heal_btn);
             treat = (Button) findViewById(R.id.treat_btn);
             prefs = getSharedPreferences("GeoCat",0);
+
             points = prefs.getLong("points",100);
+            health = prefs.getLong("hunger",Constants.MAX_HEALTH);
+            hunger = prefs.getLong("hunger",Constants.MAX_HUNGER);
+            joy = prefs.getLong("hunger",Constants.MAX_JOY);
 
             points_txt = (TextView)findViewById(R.id.points_textview);
             health_txt = (TextView)findViewById(R.id.health_textview);
@@ -76,6 +80,9 @@ public class MainActivity extends AppCompatActivity {
             imageView = (ImageView)findViewById(R.id.pet_imageview);
 
             points_txt.setText("Points: " + points);
+            health_txt.setText("Health: " + health);
+            joy_txt.setText("Joy: " + joy);
+            hunger_txt.setText("Hunger: " + hunger);
 
             food.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -104,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(_context, "Not enough points",
                                 Toast.LENGTH_LONG).show();
                     }
+
+                    update_stats();
                 }
             });
 
@@ -131,6 +140,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(_context, "Not enough points",
                                 Toast.LENGTH_LONG).show();
                     }
+                    update_stats();
                 }
             });
 
@@ -162,6 +172,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(_context, "Not enough points",
                                 Toast.LENGTH_LONG).show();
                     }
+                    update_stats();
                 }
             });
         }
@@ -169,6 +180,13 @@ public class MainActivity extends AppCompatActivity {
         ActionBar ab = getSupportActionBar();
         ab.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(getApplicationContext(), R.color.main_activity_color)));
 
+    }
+
+    private void update_stats(){
+        points_txt.setText("Points: " + points);
+        health_txt.setText("Health: " + health);
+        joy_txt.setText("Joy: " + joy);
+        hunger_txt.setText("Hunger: " + hunger);
     }
 
     private void select_pic(){
