@@ -67,18 +67,28 @@
             />
 
         <EditText
-            android:id="@+id/editText"
+            android:id="@+id/search_text"
             android:layout_width="wrap_content"
             android:layout_height="38dp"
             android:layout_marginTop="12dp"
             android:layout_marginLeft="98dp"
-            android:hint="Search Location Here"
+            android:hint="Search Location"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:maxLines="1"
             android:lines="1"
             android:textSize="20dp"
             android:inputType="text"
-            android:background="#FFFFFF"/>
+            android:background="#FFFFFF" />
+
+        <ImageButton
+            android:id="@+id/btn_search"
+            android:layout_width="38dp"
+            android:background="#8B9097"
+            android:layout_height="38dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginLeft="255dp"
+            android:src="@android:drawable/ic_menu_search"
+            />
     </FrameLayout>
 </FrameLayout>

@@ -45,8 +45,8 @@ public class ZoneService {
         db.insert(DbSchema.ZoneTable.NAME,null,c);
     }
 
-    public void removeZone(Integer zoneID){
-        db.delete(DbSchema.ZoneTable.NAME, "ID=?", new String[]{zoneID.toString()});
+    public void removeZone(String zoneID){
+        db.delete(DbSchema.ZoneTable.NAME, "ID=?", new String[]{zoneID});
     }
 
     public List<Zone> getZones(){
@@ -66,6 +66,17 @@ public class ZoneService {
         return zones;
     }
 
+    public Zone getZone(String ID){
+        List<Zone> zones = getZones();
+
+        for(Zone i:zones){
+            if(i.getID().equals(ID)){
+                return i;
+            }
+        }
+        return null;
+    }
+
     private class StoryCursorWrapper extends CursorWrapper {
 
         StoryCursorWrapper(Cursor cursor) {
@@ -73,7 +84,7 @@ public class ZoneService {
         }
 
         public Zone getZone() {
-            int id = getInt(getColumnIndex(DbSchema.ZoneTable.Columns.ID));
+            String id = getString(getColumnIndex(DbSchema.ZoneTable.Columns.ID));
             String zone_name = getString(getColumnIndex(DbSchema.ZoneTable.Columns.ZONE_NAME));
             int hours = getInt(getColumnIndex(DbSchema.ZoneTable.Columns.HOURS));
             int zone_type = getInt(getColumnIndex(DbSchema.ZoneTable.Columns.ZONE_TYPE));
@@ -85,7 +96,7 @@ public class ZoneService {
             Zone zone = new Zone(zone_name,hours,zone_type,start_lat,start_long,end_lat,end_long);
 
             zone.setID(id);
-            Log.d("haha", Integer.toString(id));
+            Log.d("haha", id);
             return zone;
         }
     }
