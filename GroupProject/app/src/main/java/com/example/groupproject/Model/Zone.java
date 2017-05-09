@@ -13,8 +13,7 @@ public class Zone implements Serializable{
     private double start_lat, start_long, end_lat, end_long;
 
     public Zone(String name, int hours, int zoneType, double start_lat,
-                double start_long, double end_lat, double end_long, int id){
-        this.id = id;
+                double start_long, double end_lat, double end_long){
         this.name = name;
         this.hours = hours;
         //0 if go 1 if nogo
@@ -25,9 +24,14 @@ public class Zone implements Serializable{
         this.end_long = end_long;
     }
 
-    public int getId(){
+    public void setID(int id){
+        this.id = id;
+    }
+
+    public int getID(){
         return id;
     }
+
 
     public String getName(){
         return name;

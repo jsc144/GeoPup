@@ -140,11 +140,11 @@ public class AddZoneActivity extends AppCompatActivity {
                         Zone z;
                         if(hours.equals("")){
                             z = new Zone(name,0,zone_type,firstPoint.latitude, firstPoint.longitude,
-                                    lastPoint.latitude, lastPoint.longitude,0);
+                                    lastPoint.latitude, lastPoint.longitude);
                         }else{
                             hours_int = Integer.parseInt(hours);
                             z = new Zone(name,hours_int,zone_type,firstPoint.latitude, firstPoint.longitude,
-                                    lastPoint.latitude, lastPoint.longitude,0);
+                                    lastPoint.latitude, lastPoint.longitude);
                         }
                         serv.addZone(z);
                         //now, check if the alarm manager was scheduled

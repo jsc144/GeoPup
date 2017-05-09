@@ -11,21 +11,67 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
+
+import com.example.groupproject.Model.Zone;
+import com.example.groupproject.service.impl.ZoneService;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_CODE_ADD_ZONE = 0;
     private PendingIntent pi=null;
     private AlarmManager mgr=null;
+    private ZoneService serv;
+    private static int points = 100;
+    private Button food, milk, treat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+
+        serv = ServiceManager.getZoneService(getApplicationContext());
+
+        List<Zone> zones = serv.getZones();
+
+        if(zones.size()==0){
+            setContentView(R.layout.activity_empty_main);
+        }else{
+            setContentView(R.layout.activity_main);
+
+            food = (Button) findViewById(R.id.food_btn);
+            milk = (Button) findViewById(R.id.milk_btn);
+            treat = (Button) findViewById(R.id.treat_btn);
+
+            food.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
+            milk.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
+            treat.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+        }
 
         ActionBar ab = getSupportActionBar();
         ab.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(getApplicationContext(), R.color.main_activity_color)));
+
     }
 
     @Override
@@ -57,6 +103,14 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"New zone was added", Toast.LENGTH_SHORT).show();
         }else{
             Toast.makeText(getApplicationContext(),"Zone was not added", Toast.LENGTH_SHORT).show();
+        }
+
+        List<Zone> zones = serv.getZones();
+
+        if(zones.size()==0){
+            setContentView(R.layout.activity_empty_main);
+        }else{
+            setContentView(R.layout.activity_main);
         }
     }
 }

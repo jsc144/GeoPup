@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.CursorWrapper;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.example.groupproject.Model.Zone;
 
@@ -26,7 +27,7 @@ public class ZoneService {
     private static ContentValues getContentValues(Zone zone){
         ContentValues contentValues = new ContentValues();
 
-        contentValues.put (DbSchema.ZoneTable.Columns.ID, zone.getId());
+        contentValues.put (DbSchema.ZoneTable.Columns.ID, zone.getID());
         contentValues.put (DbSchema.ZoneTable.Columns.ZONE_NAME, zone.getName());
         contentValues.put (DbSchema.ZoneTable.Columns.HOURS, zone.getHours());
         contentValues.put (DbSchema.ZoneTable.Columns.ZONE_TYPE, zone.getZoneType());
@@ -44,8 +45,8 @@ public class ZoneService {
         db.insert(DbSchema.ZoneTable.NAME,null,c);
     }
 
-    public void removeZone(Zone zone){
-        db.delete(DbSchema.ZoneTable.NAME, "ID=?", new String[]{Integer.toString(zone.getId())});
+    public void removeZone(Integer zoneID){
+        db.delete(DbSchema.ZoneTable.NAME, "ID=?", new String[]{zoneID.toString()});
     }
 
     public List<Zone> getZones(){
@@ -81,7 +82,10 @@ public class ZoneService {
             double end_lat = getDouble(getColumnIndex(DbSchema.ZoneTable.Columns.END_LAT));
             double end_long = getDouble(getColumnIndex(DbSchema.ZoneTable.Columns.END_LONG));
 
-            Zone zone = new Zone(zone_name,hours,zone_type,start_lat,start_long,end_lat,end_long,id);
+            Zone zone = new Zone(zone_name,hours,zone_type,start_lat,start_long,end_lat,end_long);
+
+            zone.setID(id);
+            Log.d("haha", Integer.toString(id));
             return zone;
         }
     }
