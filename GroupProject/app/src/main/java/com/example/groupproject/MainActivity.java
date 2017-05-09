@@ -69,9 +69,9 @@ public class MainActivity extends AppCompatActivity {
             prefs = getSharedPreferences("GeoCat",0);
 
             points = prefs.getLong("points",100);
-            health = prefs.getLong("hunger",Constants.MAX_HEALTH);
+            health = prefs.getLong("health",Constants.MAX_HEALTH);
             hunger = prefs.getLong("hunger",Constants.MAX_HUNGER);
-            joy = prefs.getLong("hunger",Constants.MAX_JOY);
+            joy = prefs.getLong("joy",Constants.MAX_JOY);
 
             points_txt = (TextView)findViewById(R.id.points_textview);
             health_txt = (TextView)findViewById(R.id.health_textview);
