@@ -172,6 +172,7 @@ public class MainActivity extends AppCompatActivity {
                     update_stats();
                 }
             });
+            update_stats();
         }
 
         ActionBar ab = getSupportActionBar();
@@ -266,7 +267,7 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.menu_item_add_zone:
                 Intent x = new Intent(getApplicationContext(), AddZoneActivity.class);
-                startActivityForResult(x, REQUEST_CODE_ADD_ZONE);
+                startActivity(x);
                 return true;
             case R.id.menu_item_zone_list:
                 Intent y = new Intent(getApplicationContext(), ZoneListActivity.class);
@@ -274,23 +275,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode == RESULT_OK){
-            Toast.makeText(getApplicationContext(),"New zone was added", Toast.LENGTH_SHORT).show();
-        }else{
-            Toast.makeText(getApplicationContext(),"Zone was not added", Toast.LENGTH_SHORT).show();
-        }
-
-        List<Zone> zones = serv.getZones();
-
-        if(zones.size()==0){
-            setContentView(R.layout.activity_empty_main);
-        }else{
-            setContentView(R.layout.activity_main);
         }
     }
 }
