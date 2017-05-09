@@ -33,6 +33,8 @@ import com.commonsware.cwac.locpoll.LocationPollerResult;
 import com.example.groupproject.MainActivity;
 import com.example.groupproject.R;
 import com.example.groupproject.service.impl.ZoneService;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 
 import java.util.List;
 import java.util.Random;
@@ -141,11 +143,12 @@ public class LocationReceiver extends BroadcastReceiver {
     private void addPoints(long pointValue){
         //TODO:Make persistent
         android.content.SharedPreferences pm = _context.getSharedPreferences("GeoCat",0);
-        points = pm.getLong("points",100);
+        long points = pm.getLong("points",100);
         points = points + pointValue;
         android.content.SharedPreferences.Editor editor = pm.edit();
         editor.putLong("points",points);
         editor.commit();
+        Log.d("addpoints",Long.toString( points));
     }
     private void addHunger(long hungerValue){
         SharedPreferences pm = _context.getSharedPreferences("GeoCat",0);
@@ -180,12 +183,25 @@ public class LocationReceiver extends BroadcastReceiver {
         return  zones;*/
     }
     private boolean inZone(Zone zone, double longitude, double latitude){
-        if(latitude >= zone.getStart_lat() && latitude < zone.getEnd_lat()){
-            if(longitude >= zone.getStart_long() && longitude < zone.getEnd_long()){
-                return true;
-            }
+        //Log.d("inZone","r:"+ zone.getStart_lat() +)
+
+        LatLng firstPoint = new LatLng(zone.getStart_lat(),zone.getStart_long());
+
+        LatLng secondPoint = new LatLng(firstPoint.latitude,zone.getEnd_long());
+        LatLng lastPoint = new LatLng(zone.getEnd_lat(),zone.getEnd_long());
+
+        LatLng thirdPoint = new LatLng(lastPoint.latitude,firstPoint.longitude);
+        LatLng thisPoint = new LatLng(latitude,longitude);
+        LatLngBounds bounds = new LatLngBounds(thirdPoint,secondPoint);
+        if(bounds.contains(thisPoint)) {
+            Log.d("inzone?","yes");
+            return true;
+
         }
-        return false;
+        else {
+            Log.d("inzone?","no");
+            return false;
+        }
     }
     private void sendNotification(String title, String message){
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(_context)
