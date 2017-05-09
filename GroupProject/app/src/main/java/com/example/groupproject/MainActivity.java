@@ -224,9 +224,12 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        if(health == 0){
+        if(prefs.getBoolean("zerohealth",false)){
             imageView.setImageResource(R.drawable.animal_services);
             showAlert("A neighborhood vet saw your starving dog and took it to safety (away from you).");
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean("zerohealth",false);
+            editor.commit();
         }
 
         if(!prefs.getBoolean("alive",true)){

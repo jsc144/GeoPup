@@ -134,6 +134,7 @@ public class LocationReceiver extends BroadcastReceiver {
         editor.putLong("health", MAX_HEALTH);
         editor.putLong("hunger", MAX_HUNGER);
         editor.putLong("joy", MAX_JOY);
+        editor.putBoolean("zerohealth",true);
         editor.commit();
         //TODO:reset name
     }
