@@ -172,18 +172,19 @@ public class MainActivity extends AppCompatActivity {
                     update_stats();
                 }
             });
+            select_pic();
         }
 
         ActionBar ab = getSupportActionBar();
         ab.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(getApplicationContext(), R.color.main_activity_color)));
-        select_pic();
+
     }
 
     private void update_stats(){
         points = prefs.getLong("points",0);
-        health = prefs.getLong("health",Constants.MAX_HEALTH);
-        hunger = prefs.getLong("hunger",Constants.MAX_HUNGER);
-        joy = prefs.getLong("joy",Constants.MAX_JOY);
+        health = prefs.getLong("health",0);
+        hunger = prefs.getLong("hunger",0);
+        joy = prefs.getLong("joy",0);
 
         points_txt.setText("Points: " + points);
         health_txt.setText("Health: " + health);
