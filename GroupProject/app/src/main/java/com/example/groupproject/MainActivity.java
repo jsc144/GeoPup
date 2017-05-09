@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
             food.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    long points = prefs.getLong("points",1000);
+                    long points = prefs.getLong("points",100);
                     if(points >= Constants.FOOD_COST){
                         hunger = prefs.getLong("hunger",Constants.MAX_HUNGER);
                         if(hunger < Constants.MAX_HUNGER){
@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     long points = prefs.getLong("points",100);
+                    //long points = 180;
                     if(points >= Constants.MEDICINE_COST){
                         health = prefs.getLong("health",MAX_HEALTH);
                         if(health >= MAX_HEALTH){
@@ -181,10 +182,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void update_stats(){
-        points = prefs.getLong("points",0);
-        health = prefs.getLong("health",0);
-        hunger = prefs.getLong("hunger",0);
-        joy = prefs.getLong("joy",0);
+
+        points = prefs.getLong("points",100);
+        health = prefs.getLong("health",Constants.MAX_HEALTH);
+        hunger = prefs.getLong("hunger",Constants.MAX_HUNGER);
+        joy = prefs.getLong("joy",Constants.MAX_JOY);
+
 
         points_txt.setText("Points: " + points);
         health_txt.setText("Health: " + health);
@@ -194,12 +197,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void select_pic(){
+        points = prefs.getLong("points",100);
+        health = prefs.getLong("health",Constants.MAX_HEALTH);
+        hunger = prefs.getLong("hunger",Constants.MAX_HUNGER);
+        joy = prefs.getLong("joy",Constants.MAX_JOY);
+
         int i = random.nextInt(101-1);
         if(i > 50){
             imageView.setImageResource(R.drawable.happy_dog);
         }else{
             imageView.setImageResource(R.drawable.happy_dog_2);
         }
+
         if(hunger==0){
             if(i >50){
                 imageView.setImageResource(R.drawable.sick_dog_1);
@@ -207,6 +216,7 @@ public class MainActivity extends AppCompatActivity {
                 imageView.setImageResource(R.drawable.sick_dog2);
             }
         }
+
         if(joy < MAX_JOY/4){
             if(i <= 33){
                 imageView.setImageResource(R.drawable.mad_dog);
@@ -216,10 +226,12 @@ public class MainActivity extends AppCompatActivity {
                 imageView.setImageResource(R.drawable.mad_dog3);
             }
         }
+
         if(health == 0){
             imageView.setImageResource(R.drawable.animal_services);
             showAlert("A neighborhood vet saw your starving dog and took it to safety (away from you).");
         }
+
         if(!prefs.getBoolean("alive",true)){
             imageView.setImageResource(R.drawable.animal_services);
 
