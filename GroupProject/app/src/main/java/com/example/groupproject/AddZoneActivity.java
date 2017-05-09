@@ -155,7 +155,6 @@ public class AddZoneActivity extends AppCompatActivity {
                         setResult(RESULT_OK);
                         finish();
                     }
-
                 }else{
                     Toast.makeText(getApplicationContext(),"Choose a zone on the map", Toast.LENGTH_SHORT).show();
                 }

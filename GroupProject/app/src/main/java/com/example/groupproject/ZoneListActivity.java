@@ -112,7 +112,7 @@ public class ZoneListActivity extends AppCompatActivity  implements OnMapReadyCa
         List<Zone> zones = serv.getZones();
 
         for(Zone i : zones){
-            Log.d("rofl", Integer.toString(i.getID()));
+            Log.d("rofl", i.getID());
             PolygonOptions rectOptions = new PolygonOptions();
 
             firstPoint = new LatLng(i.getStart_lat(),i.getStart_long());
@@ -135,7 +135,7 @@ public class ZoneListActivity extends AppCompatActivity  implements OnMapReadyCa
             rectOptions.strokeWidth(7);
 
             Polygon polygon = google_map.addPolygon(rectOptions);
-            Integer id = new Integer(i.getID());
+            String id = i.getID();
             polygon.setTag(id);
             polygon.setClickable(true);
         }
@@ -241,9 +241,9 @@ public class ZoneListActivity extends AppCompatActivity  implements OnMapReadyCa
     }
 
     @Override
-    public void onPolygonClick(Polygon polygon) {
+    public void onPolygonClick(final Polygon polygon) {
         final List<LatLng> points = polygon.getPoints();
-        final Integer l = (Integer) polygon.getTag();
+        final String l = (String)polygon.getTag();
         Log.d("lmao",l.toString());
         AlertDialog alertDialog = new AlertDialog.Builder(ZoneListActivity.this).create();
         alertDialog.setTitle("Delete Zone");
@@ -251,9 +251,9 @@ public class ZoneListActivity extends AppCompatActivity  implements OnMapReadyCa
         alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, "OK",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-
                         serv.removeZone(l);
                         dialog.dismiss();
+                        polygon.remove();
                     }
                 });
         alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Cancel",
@@ -263,6 +263,6 @@ public class ZoneListActivity extends AppCompatActivity  implements OnMapReadyCa
                     }
                 });
         alertDialog.show();
-        Draw_Map();
+
     }
 }

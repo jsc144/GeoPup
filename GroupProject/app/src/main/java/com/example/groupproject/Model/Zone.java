@@ -1,6 +1,7 @@
 package com.example.groupproject.Model;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 /**
  * Created by hasit on 5/4/2017.
@@ -8,8 +9,8 @@ import java.io.Serializable;
 
 public class Zone implements Serializable{
 
-    private String name;
-    private int id, hours, zoneType;
+    private String name, id;
+    private int hours, zoneType;
     private double start_lat, start_long, end_lat, end_long;
 
     public Zone(String name, int hours, int zoneType, double start_lat,
@@ -22,13 +23,14 @@ public class Zone implements Serializable{
         this.start_long = start_long;
         this.end_lat = end_lat;
         this.end_long = end_long;
+        this.id = UUID.randomUUID().toString();;
     }
 
-    public void setID(int id){
+    public void setID(String id){
         this.id = id;
     }
 
-    public int getID(){
+    public String  getID(){
         return id;
     }
 
