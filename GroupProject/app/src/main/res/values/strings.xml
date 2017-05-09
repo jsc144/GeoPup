@@ -1,5 +1,8 @@
 <resources>
-    <string name="app_name">GroupProject</string>
+    <string name="app_name">Geopup</string>
+    <string name="title_add">Add Zone</string>
+    <string name="title_list">Zone List</string>
+
     <string name="zone_textView">Choose a zone type</string>
     <string name="name_textView">Choose a name</string>
     <string name="name_hint">Enter a name for the zone</string>
@@ -24,11 +27,6 @@
     <string name="food_btn">Give Food (60 pts)</string>
     <string name="treat_btn">Give Treat (120 pts)</string>
     <string name="milk_btn">Heal (180 pts)</string>
-
-    <string name="food_txt">-20</string>
-    <string name="treat_txt">-50</string>
-    <string name="heal_txt">-100</string>
-
 
     <string name="health_text">Health</string>
     <string name="joy_text">Joy</string>
