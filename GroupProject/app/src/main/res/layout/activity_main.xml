@@ -24,7 +24,7 @@
             android:padding="10dp"/>
 
         <TextView
-            android:id="@+id/Joy_textview"
+            android:id="@+id/joy_textview"
             android:text="@string/joy_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
             android:padding="10dp"/>
 
         <TextView
-            android:id="@+id/Hunger_textview"
+            android:id="@+id/hunger_textview"
             android:text="@string/hunger_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -99,7 +99,7 @@
             android:background="#FFD700"
             android:layout_margin="2dp"/>
         <Button
-            android:id="@+id/milk_btn"
+            android:id="@+id/heal_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/milk_btn"

@@ -15,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.groupproject.Model.Constants;
@@ -32,10 +33,12 @@ public class MainActivity extends AppCompatActivity {
     private PendingIntent pi=null;
     private AlarmManager mgr=null;
     private ZoneService serv;
-    private static int points = 100;
-    private Button food, milk, treat;
+    private static long points;
+    private Button food, heal, treat;
     private SharedPreferences prefs;
     private Context _context;
+    private TextView points_txt, health_txt, joy_txt,hunger_txt;
+    private long health, hunger, joy;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,22 +48,33 @@ public class MainActivity extends AppCompatActivity {
 
         List<Zone> zones = serv.getZones();
 
+
+
+
         if(zones.size()==0){
             setContentView(R.layout.activity_empty_main);
         }else{
             setContentView(R.layout.activity_main);
 
             food = (Button) findViewById(R.id.food_btn);
-            milk = (Button) findViewById(R.id.milk_btn);
+            heal = (Button) findViewById(R.id.heal_btn);
             treat = (Button) findViewById(R.id.treat_btn);
             prefs = getSharedPreferences("GeoCat",0);
+            points = prefs.getLong("points",100);
+
+            points_txt = (TextView)findViewById(R.id.points_textview);
+            health_txt = (TextView)findViewById(R.id.health_textview);
+            joy_txt = (TextView)findViewById(R.id.joy_textview);
+            hunger_txt = (TextView)findViewById(R.id.hunger_textview);
+
+            points_txt.setText("Points: " + points);
 
             food.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     long points = prefs.getLong("points",0);
                     if(points >= Constants.FOOD_COST){
-                        long hunger = prefs.getLong("hunger",Constants.MAX_HUNGER);
+                        hunger = prefs.getLong("hunger",Constants.MAX_HUNGER);
                         if(hunger < Constants.MAX_HUNGER){
                             if(hunger + Constants.FOOD_INCREMENT <= Constants.MAX_HUNGER)
                                 hunger = Constants.MAX_HUNGER;
@@ -85,12 +99,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
 
-            milk.setOnClickListener(new View.OnClickListener() {
+            heal.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     long points = prefs.getLong("points",0);
                     if(points >= Constants.MEDICINE_COST){
-                        long health = prefs.getLong("health",MAX_HEALTH);
+                        health = prefs.getLong("health",MAX_HEALTH);
                         if(health >= MAX_HEALTH){
                             Toast.makeText(_context, "Already at full health",
                                     Toast.LENGTH_LONG).show();
@@ -117,7 +131,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     long points = prefs.getLong("points",0);
                     if(points >= Constants.TREAT_COST){
-                        long joy = prefs.getLong("joy",Constants.MAX_JOY);
+                        joy = prefs.getLong("joy",Constants.MAX_JOY);
 
                         if(joy < Constants.MAX_JOY)
                         {
@@ -147,6 +161,12 @@ public class MainActivity extends AppCompatActivity {
         ActionBar ab = getSupportActionBar();
         ab.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(getApplicationContext(), R.color.main_activity_color)));
 
+    }
+
+    private void select_pic(){
+        if(hunger==0){
+
+        }
     }
 
     @Override
