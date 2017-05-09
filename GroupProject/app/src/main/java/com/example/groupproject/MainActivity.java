@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     long points = prefs.getLong("points",100);
+                    //long points = 180;
                     if(points >= Constants.MEDICINE_COST){
                         health = prefs.getLong("health",MAX_HEALTH);
                         if(health >= MAX_HEALTH){
@@ -197,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
         health = prefs.getLong("health",Constants.MAX_HEALTH);
         hunger = prefs.getLong("hunger",Constants.MAX_HUNGER);
         joy = prefs.getLong("joy",Constants.MAX_JOY);
-        
+
         int i = random.nextInt(101-1);
         if(i > 50){
             imageView.setImageResource(R.drawable.happy_dog);
