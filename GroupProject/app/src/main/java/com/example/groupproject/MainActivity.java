@@ -3,6 +3,7 @@ package com.example.groupproject;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.groupproject.Model.Constants;
 import com.example.groupproject.Model.Zone;
 import com.example.groupproject.service.impl.ZoneService;
 
@@ -28,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private ZoneService serv;
     private static int points = 100;
     private Button food, milk, treat;
-
+    SharedPreferences prefs;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,11 +48,26 @@ public class MainActivity extends AppCompatActivity {
             food = (Button) findViewById(R.id.food_btn);
             milk = (Button) findViewById(R.id.milk_btn);
             treat = (Button) findViewById(R.id.treat_btn);
+            prefs = getSharedPreferences("GeoCat",0);
 
             food.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    long points = prefs.getLong("points",0);
+                    if(points >= Constants.FOOD_COST){
+                        SharedPreferences.Editor editor = prefs.edit();
+                        points = points - Constants.FOOD_COST;
+                        editor.putLong("points",points);
+                        long hunger = prefs.getLong("hunger",Constants.MAX_HUNGER);
+                        if(hunger < Constants.MAX_HUNGER){
+                            if(hunger + Constants.FOOD_INCREMENT <= Constants.MAX_HUNGER)
+                                hunger = Constants.MAX_HUNGER;
+                            else
+                                hunger = hunger + Constants.FOOD_INCREMENT;
+                            editor.putLong("hunger",hunger);
+                        }
+                        editor.commit();
+                    }
                 }
             });
 
@@ -64,7 +81,23 @@ public class MainActivity extends AppCompatActivity {
             treat.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    long points = prefs.getLong("points",0);
+                    if(points >= Constants.TREAT_COST){
+                        long joy = prefs.getLong("joy",Constants.MAX_JOY);
 
+                        if(joy < Constants.MAX_JOY)
+                        {
+                            points = points - Constants.TREAT_COST;
+                            if(joy + Constants.TREAT_INCREMENT >= Constants.MAX_JOY)
+                                joy = Constants.MAX_JOY;
+                            else
+                                joy = joy + Constants.TREAT_INCREMENT;
+                            SharedPreferences.Editor editor = prefs.edit();
+                            editor.putLong("points",points);
+                            editor.putLong("joy",joy);
+                            editor.commit();
+                        }
+                    }
                 }
             });
         }
