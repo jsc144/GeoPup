@@ -110,12 +110,7 @@ public class AddZoneActivity extends AppCompatActivity {
         cancel_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setResult(RESULT_CANCELED);
-                /*askLocationPermission();
-                SharedPreferences prefs = getSharedPreferences("GeoCat",0);
-                long points = prefs.getLong("points",0);
-                Log.d("init points", Long.toString(points));
-           */
+
                 finish();
             }
         });
@@ -137,7 +132,8 @@ public class AddZoneActivity extends AppCompatActivity {
                         if(!prefs.getBoolean("started",false)){
                             askLocationPermission();
                         }
-                        setResult(RESULT_OK);
+                        Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                        startActivity(intent);
                         finish();
                     }
                 }else{
@@ -173,8 +169,6 @@ public class AddZoneActivity extends AppCompatActivity {
         parameter.setProviders(new String[] {LocationManager.GPS_PROVIDER, LocationManager.NETWORK_PROVIDER});
         parameter.setTimeout(60000);
         i.putExtras(bundle);
-
-
         pi= PendingIntent.getBroadcast(this, 0, i, 0);
         mgr.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                 SystemClock.elapsedRealtime(), PERIOD,  pi);
@@ -183,8 +177,7 @@ public class AddZoneActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean("started",true);
         editor.commit();
-        Toast.makeText(this, getFilesDir().getPath(),
-                Toast.LENGTH_LONG).show();
+
     }
     public boolean checkLocationPermission()
     {

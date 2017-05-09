@@ -277,7 +277,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
+/*    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if(resultCode == RESULT_OK){
             Toast.makeText(getApplicationContext(),"New zone was added", Toast.LENGTH_SHORT).show();
@@ -292,5 +292,5 @@ public class MainActivity extends AppCompatActivity {
         }else{
             setContentView(R.layout.activity_main);
         }
-    }
+    }*/
 }

@@ -1,5 +1,7 @@
 <resources>
-    <string name="app_name">GroupProject</string>
+    <string name="app_name">Geopup</string>
+    <string name="title_AddZoneActivity">Add a zone</string>
+    <string name="title_ZoneListActivity">Zone list</string>
     <string name="zone_textView">Choose a zone type</string>
     <string name="name_textView">Choose a name</string>
     <string name="name_hint">Enter a name for the zone</string>

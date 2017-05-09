@@ -63,11 +63,7 @@
 
     <ImageView
         android:layout_width="match_parent"
-<<<<<<< HEAD
-        android:layout_height="400px"
-=======
-        android:layout_height="300dp"
->>>>>>> refs/remotes/origin/master
+        android:layout_height="600px"
         android:id="@+id/pet_imageview"/>
 
     <LinearLayout

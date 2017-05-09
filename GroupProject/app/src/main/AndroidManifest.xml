@@ -46,8 +46,10 @@
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
-        <activity android:name="com.example.groupproject.AddZoneActivity" />
-        <activity android:name="com.example.groupproject.ZoneListActivity"/>
+        <activity android:name="com.example.groupproject.AddZoneActivity"
+            android:label="@string/title_AddZoneActivity"/>
+        <activity android:name="com.example.groupproject.ZoneListActivity"
+            android:label="@string/title_ZoneListActivity"/>
         <receiver android:name="com.example.groupproject.Model.LocationReceiver"
             android:enabled="true"
             >
