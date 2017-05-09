@@ -13,7 +13,6 @@ public class DbSchema {
             public static final
                     String ID = "ID",
                     ZONE_NAME = "ZONE_NAME",
-                    HOURS = "HOURS",
                     ZONE_TYPE = "ZONE_TYPE",
                     START_LAT = "START_LAT",
                     START_LONG = "START_LONG",

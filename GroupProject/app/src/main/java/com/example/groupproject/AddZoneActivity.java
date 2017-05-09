@@ -75,9 +75,6 @@ public class AddZoneActivity extends AppCompatActivity {
                 nogozone_button.setBackgroundResource(R.drawable.zone_shape_unselected);
                 ab.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(getApplicationContext(), R.color.goZone_color)));
 
-                hours_textview.setVisibility(View.VISIBLE);
-                hours_edittext.setVisibility(View.VISIBLE);
-
                 zone_type = 0;
 
             }
@@ -91,9 +88,6 @@ public class AddZoneActivity extends AppCompatActivity {
                 nogozone_button.setBackgroundResource(R.drawable.zone_shape_selected);
                 gozone_button.setBackgroundResource(R.drawable.zone_shape_unselected);
                 ab.setBackgroundDrawable(new ColorDrawable(ContextCompat.getColor(getApplicationContext(), R.color.nogoZone_color)));
-
-                hours_textview.setVisibility(View.INVISIBLE);
-                hours_edittext.setVisibility(View.INVISIBLE);
 
                 zone_type = 1;
             }
@@ -131,21 +125,12 @@ public class AddZoneActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if(gotMapResult){
                     String name = name_edittext.getText().toString();
-                    String hours = hours_edittext.getText().toString();
 
                     if(name.equals("")){
                         Toast.makeText(getApplicationContext(),"Enter a name for the Zone", Toast.LENGTH_SHORT).show();
                     }else{
-                        int hours_int;
-                        Zone z;
-                        if(hours.equals("")){
-                            z = new Zone(name,0,zone_type,firstPoint.latitude, firstPoint.longitude,
+                        Zone z = new Zone(name,zone_type,firstPoint.latitude, firstPoint.longitude,
                                     lastPoint.latitude, lastPoint.longitude);
-                        }else{
-                            hours_int = Integer.parseInt(hours);
-                            z = new Zone(name,hours_int,zone_type,firstPoint.latitude, firstPoint.longitude,
-                                    lastPoint.latitude, lastPoint.longitude);
-                        }
                         serv.addZone(z);
                         //now, check if the alarm manager was scheduled
                         SharedPreferences prefs = getSharedPreferences("GeoCat",0);
