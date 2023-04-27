@@ -6,3 +6,6 @@ Note2: For testing purposes, the app gets a location every 3 minutes instead of 
 
 authors: Joe
 Hasitha 
+
+# License
+The code in this project is licensed under the Apache Software License 2.0, per the terms of the included LICENSE file.
